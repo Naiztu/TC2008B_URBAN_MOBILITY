@@ -30,11 +30,23 @@ import numpy as np
 
 class car(Agent):
     # Constructor
-    def __init__(self, unique_id, x, y, speed, direction):
+    def __init__(self, unique_id, model, x=0, y=0, speed=1, direction=1):
+        super().__init__(unique_id, model)
         self.unique_id = unique_id
-        self.position = np.array(x, y, 0)
+        self.position = np.array([x, y], dtype=np.int32)
         self.speed = speed
         self.direction = direction
+
+    def finished(self):
+        if self.position[1] == self.model.grid.heigth:
+            self.model.grid.remove_agent(self)
+            self.model.state_num_cars -= 1
+            self.model.schedule.remove(self)
+            return True
+
+    def step(self):
+        self.position = np.array(
+            [self.position[0], self.position[1] + self.speed], dtype=np.int32)
 
     # Get information of the car
 
@@ -42,4 +54,4 @@ class car(Agent):
         return f"Car ID: {self.unique_id}, Position: {self.position}, Speed: {self.speed}, Direction: {self.direction}"
 
     def json(self):
-        return {"unique_id": self.unique_id, "position": self.position, "speed": self.speed, "direction": self.direction}
+        return {"unique_id": self.unique_id, "position": {"x": int(self.position[0]), "y": int(self.position[1])}, "speed": self.speed, "direction": self.direction}

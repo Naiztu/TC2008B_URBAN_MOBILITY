@@ -17,7 +17,8 @@ utils - Contains useful functions.
 
 **Development environment**
 ```
-python -3 -m venv venv
+pip install virtualenv
+python -m venv venv
 venv\Scripts\activate
 pip install mesa matplob numpy pandas flask
 flask --app app.py --debug run

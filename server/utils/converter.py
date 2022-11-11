@@ -8,7 +8,7 @@
     Christian Leilael Rico Espinosa     A01707023
     José Ángel Rico Mendieta            A01707404
 
-    Utils functions for the Multi-Agent System for connecting the Unity
+    Converters functions for the Multi-Agent System for connecting the Unity
 
 '''
 
@@ -22,3 +22,7 @@ def message_to_json(message):
 # Convert list of cars to json
 def position_to_json(position):
     return jsonify({'x': position.x, 'y': position.y})
+
+# Convert object to json
+def to_json(obj):
+    return jsonify(obj)

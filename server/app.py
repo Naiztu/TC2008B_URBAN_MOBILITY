@@ -21,7 +21,7 @@ from utils.converter import message_to_json, position_to_json, to_json
 app = Flask(__name__)
 
 # Initialize the model (unique_id, max_num_cars, time, time_stop, range_stop, max_speed, max_steps)
-model = ModelStreet(1, 10, 10, 5, 5, 5,1000)
+model = ModelStreet(1, 10, 10, 5, 5, 5, 1000)
 
 # Endpoint for check the status of the server
 @app.route('/',methods=['GET'])

@@ -14,6 +14,8 @@
 
 # Import libraries
 from mesa import Agent
+import numpy as np
+
 
 '''
     Agent for simulate the car
@@ -24,14 +26,20 @@ from mesa import Agent
         speed: Speed of the car
         direction: Direction of the car
 '''
+
+
 class car(Agent):
     # Constructor
-    def __init__(self,unique_id, position, speed, direction):
+    def __init__(self, unique_id, x, y, speed, direction):
         self.unique_id = unique_id
-        self.position = position
+        self.position = np.array(x, y, 0)
         self.speed = speed
         self.direction = direction
 
     # Get information of the car
+
     def __str__(self):
         return f"Car ID: {self.unique_id}, Position: {self.position}, Speed: {self.speed}, Direction: {self.direction}"
+
+    def json(self):
+        return {"unique_id": self.unique_id, "position": self.position, "speed": self.speed, "direction": self.direction}

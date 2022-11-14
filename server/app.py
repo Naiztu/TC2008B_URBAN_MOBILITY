@@ -24,15 +24,11 @@ app = Flask(__name__)
 model = ModelStreet(1, 10, 10, 5, 5, 5, 1000)
 
 # Endpoint for check the status of the server
-
-
 @app.route('/', methods=['GET'])
 def hello_world():
     return message_to_json("The app is running!")
 
 # Initialize the model
-
-
 @app.route('/init', methods=['POST'])
 def initial_model():
     # Get the parameters
@@ -52,8 +48,6 @@ def initial_model():
     return to_json(model.json())
 
 # Reset state of the model
-
-
 @app.route('/reset', methods=['GET'])
 def reset_model():
 
@@ -63,23 +57,17 @@ def reset_model():
     return message_to_json('Reset the model')
 
 # Exexute step of model
-
-
 @app.route('/step', methods=['GET'])
 def step_model():
     model.step()
     return model.json()
 
 # Get initial info of model
-
-
 @app.route('/info', methods=['GET'])
 def info_model():
     return message_to_json(model.__str__())
 
 # Save animation of model
-
-
 @app.route('/save', methods=['GET'])
 def save_model():
     return message_to_json('Saving the app')

@@ -22,8 +22,8 @@ from utils.converter import message_to_json, position_to_json, to_json
 # Create the Flask app
 app = Flask(__name__)
 
-# Initialize the model (unique_id, width, heigth, max_num_cars, time, time_stop, range_stop, max_speed, max_steps)
-model = ModelStreet(unique_id=1,width=3, heigth=1000, max_num_cars=30, time=10, time_stop=5, range_stop=750, max_speed=60, max_steps=10000)
+# Initialize the model (unique_id, width, height, max_num_cars, time, time_stop, range_stop, max_speed, max_steps)
+model = ModelStreet(unique_id=1,width=3, height=1000, max_num_cars=30, time=10, time_stop=5, range_stop=750, max_speed=60)
 
 # Endpoint for check the status of the server
 @app.route('/', methods=['GET'])
@@ -45,7 +45,7 @@ def initial_model():
 
     # Initialize the model
     global model
-    model = ModelStreet(1, width, heigth, max_num_cars, time, time_stop, range_stop, max_speed, max_steps)
+    model = ModelStreet(1, width, heigth, max_num_cars, time, time_stop, range_stop, max_speed)
 
     # Return the message
     return to_json(model.json())
@@ -55,7 +55,7 @@ def initial_model():
 def reset_model():
 
     global model
-    model = ModelStreet(1, 3, 1000, 30, 10, 5, 750, 60, 300)
+    model = ModelStreet(1, 3, 1000, 30, 10, 5, 750, 60)
 
     return message_to_json('Reset the model')
 
@@ -70,27 +70,3 @@ def step_model():
 def info_model():
     return message_to_json(model.__str__())
 
-# Save animation of model
-@app.route('/save', methods=['GET'])
-def save_model():
-    while(model.step_count != model.max_steps):
-        model.step()
-
-    all_grids = model.datacollector.get_model_vars_dataframe()
-
-    fig, axis = plt.subplots(figsize=(60, 3))
-    axis.set_xticks([])
-    axis.set_yticks([])
-    patch = axis.imshow(all_grids.iloc[0][0], cmap=plt.cm.binary)
-
-
-    def animate(i):
-        patch.set_data(all_grids.iloc[i][0])
-
-
-    anim = animation.FuncAnimation(
-        fig, animate, frames=len(all_grids), interval=100)
-    anim.save('animation.gif', writer='imagemagick', fps=10)
-
-    reset_model()
-    return message_to_json('Saving the app')

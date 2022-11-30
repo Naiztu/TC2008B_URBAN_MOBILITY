@@ -153,9 +153,7 @@ class ModelStreet(Model):
             p = self.schedule.agents[idx].json()
             positions_list.append(p)
         positions = positions_list
-        return {"unique_id": self.unique_id, "width": self.width, "height": self.height, 
-                "max_num_cars": self.max_num_cars, "time": self.time, "time_stop": self.time_stop, 
-                "range_stop": self.range_stop, "max_speed": self.max_speed, "max_steps": self.max_steps, 
-                "positions": positions, "step_count": self.step_count, "state_ids": self.state_ids, 
+        return {"unique_id": self.unique_id, "width": self.width, "height": self.height, "max_num_cars": self.max_num_cars, "time_stop": self.time_stop, 
+                "range_stop": self.range_stop, "max_speed": self.max_speed, "max_steps": self.max_steps, "positions": positions, "step_count": self.step_count, "state_ids": self.state_ids, 
                 "state_num_cars": self.state_num_cars}
 

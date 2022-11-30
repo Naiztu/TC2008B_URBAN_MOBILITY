@@ -14,7 +14,8 @@ public class UrbanMobility : MonoBehaviour
 
         for(int i = 0; i < a.positions.Count; i++)
         {
-            Debug.Log("X: " + a.positions[i].position.x);
+            Debug.Log("X: " + a.positions[i].pos.x);
+            Debug.Log("Z: " + a.positions[i].pos.y);
            
         }
 

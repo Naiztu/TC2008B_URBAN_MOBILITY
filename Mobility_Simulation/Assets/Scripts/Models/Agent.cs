@@ -38,7 +38,7 @@ public class Agent
 public class PS
 {
   public int direction;
-  public Coor position;
+  public Coor pos;
   public int unique_id;
   public int speed;
 

@@ -5,7 +5,7 @@
     TEAM 9
 
     Olivia Araceli Morales Quezada      A01707371
-    Christian Leilael Rico Espinosa     A01707023
+    Cristian Leilael Rico Espinosa     A01707023
     José Ángel Rico Mendieta            A01707404
 
     Models for the Multi-Agent System for connecting the Unity

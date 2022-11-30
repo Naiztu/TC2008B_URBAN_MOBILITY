@@ -14,27 +14,32 @@ public class UrbanMobility : MonoBehaviour
 
     public float timeToUpdate = 5.0f;
     private float timer;
+    float dt;
 
-    /*IEnumerator GetData()
+    IEnumerator GetData()
     {
         Agent a = APIHelper.GetNewAgent();
 
-        int ids = 0;
-
-        for (int i = 0; i < a.positions.Count; i++){
-            if (i = a[i].positions.unique_id){
-                ids += 1;
+        for (int i = 0; i < a.positions.Count; i++)
+        {
+            Debug.Log("Llego al loop");
+            if (i != a.positions[i].unique_id)
+            {
+                continue;
             }
+            Debug.Log("Paso al loop if");
+            GameObject car = Instantiate(Carro, new Vector3(a.positions[i].pos.x, 0, a.positions[i].pos.y), Quaternion.identity);
+            car.GetComponent<Movement>().ID = a.positions[i].unique_id; // Corregir posiciones de "i" a pasar.
+            car.GetComponent<Movement>().previousPosy = a.positions[i].pos.y - 3;
+            car.GetComponent<Movement>().posy = a.positions[i].pos.y;
+
         }
 
-        for (int j = 0; j < ids; j++){
-           Instantiate(selector, new Vector3(a.positions[i].pos.x, 0, a.positions[i].pos.y), Quaternion.identity) as GameObject;
-           // Otorgarle a cada objeto el unique_id
-        }
+        yield return null;
 
-    }*/
+    }
 
-    public void NewAgent()
+    /*public void NewAgent()
     {
         Agent a = APIHelper.GetNewAgent();
         agentText.text = a.step_count.ToString();
@@ -48,18 +53,36 @@ public class UrbanMobility : MonoBehaviour
 
         }
 
-        Debug.Log("NUM CARROS= " + a.state_num_cars);
+        Debug.Log("NUM CARROS = " + a.state_num_cars);
 
-    }
+    }*/
 
 
     void Start()
     {
+#if UNITY_EDITOR
+        StartCoroutine(GetData());
+        timer = timeToUpdate;
+#endif
 
     }
 
     void Update()
     {
+
+        timer -= Time.deltaTime;
+        dt = 1.0f - (timer / timeToUpdate);
+
+        if (timer < 0)
+        {
+
+#if UNITY_EDITOR
+            timer = timeToUpdate; // reset the timer
+            /*Vector3 fakePos = new Vector3(3.44f, 0, -15.707f);
+            string json = EditorJsonUtility.ToJson(fakePos);*/
+            StartCoroutine(GetData());
+#endif
+        }
 
     }
 

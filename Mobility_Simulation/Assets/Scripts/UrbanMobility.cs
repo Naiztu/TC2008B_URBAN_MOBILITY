@@ -30,8 +30,8 @@ public class UrbanMobility : MonoBehaviour
             Debug.Log("Paso al loop if");
             GameObject car = Instantiate(Carro, new Vector3(a.positions[i].pos.x, 0, a.positions[i].pos.y), Quaternion.identity);
             car.GetComponent<Movement>().ID = a.positions[i].unique_id; // Corregir posiciones de "i" a pasar.
-            car.GetComponent<Movement>().previousPosy = a.positions[i].pos.y - 3;
-            car.GetComponent<Movement>().posy = a.positions[i].pos.y;
+            car.GetComponent<Movement>().previousY = a.positions[i].pos.y - 3;
+            car.GetComponent<Movement>().posY = a.positions[i].pos.y;
 
         }
 

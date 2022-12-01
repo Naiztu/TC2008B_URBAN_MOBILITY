@@ -17,6 +17,12 @@ public class Movement : MonoBehaviour
     public int previousY;
 
 
+    public void Move()
+    {
+        transform.Translate(Vector3.forward * horizontalSpeed * Time.deltaTime * 1);
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,8 +36,4 @@ public class Movement : MonoBehaviour
 
     }
 
-    public void Move()
-    {
-        transform.Translate(Vector3.forward * horizontalSpeed * Time.deltaTime * 1);
-    }
 }

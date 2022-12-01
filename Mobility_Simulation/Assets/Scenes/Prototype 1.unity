@@ -462,12 +462,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 451a46f143f176d4abb38d8b23b367ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeToUpdate: 5
   Carro: {fileID: 5642515336461994151, guid: 911b0ddec3f190d49ad6dd3c0d22bcb8, type: 3}
   AltCarro: {fileID: 4944440987707918962, guid: 7685916edb164e74b80116e299a1ca9f, type: 3}
-  selectorArr: []
-  selector: {fileID: 5642515336461994151, guid: 911b0ddec3f190d49ad6dd3c0d22bcb8, type: 3}
-  agentText: {fileID: 0}
-  timeToUpdate: 5
 --- !u!4 &649451786
 Transform:
   m_ObjectHideFlags: 0

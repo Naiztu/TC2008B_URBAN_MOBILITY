@@ -1,89 +1,75 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.Networking;
 
 public class UrbanMobility : MonoBehaviour
 {
-    public GameObject Carro;
-    public GameObject AltCarro;
-
-    public GameObject[] selectorArr;
-    public GameObject selector;
-    public TextMeshProUGUI agentText;
-
     public float timeToUpdate = 5.0f;
     private float timer;
     float dt;
 
-    IEnumerator GetData()
+    public GameObject Carro;
+    public GameObject AltCarro;
+
+    // IEnumerator - yield return
+    IEnumerator SendData()
     {
-        Agent a = APIHelper.GetNewAgent();
-
-        for (int i = 0; i < a.positions.Count; i++)
+        WWWForm form = new WWWForm();
+        form.AddField("bundle", "the data");
+        string url = "http://127.0.0.1:5000/step";
+        using (UnityWebRequest www = UnityWebRequest.Get(url))
         {
-            Debug.Log("Llego al loop");
-            if (i != a.positions[i].unique_id)
+            www.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+            www.SetRequestHeader("Content-Type", "application/json");
+
+            yield return www.SendWebRequest();          // Talk to Python
+            if (www.isNetworkError || www.isHttpError)
             {
-                continue;
+                Debug.Log("Hola");
+                Debug.Log(www.error);
             }
-            Debug.Log("Paso al loop if");
-            GameObject car = Instantiate(Carro, new Vector3(a.positions[i].pos.x, 0, a.positions[i].pos.y), Quaternion.identity);
-            car.GetComponent<Movement>().ID = a.positions[i].unique_id; // Corregir posiciones de "i" a pasar.
-            car.GetComponent<Movement>().previousY = a.positions[i].pos.y - 3;
-            car.GetComponent<Movement>().posY = a.positions[i].pos.y;
+            else
+            {
+                Agent a = JsonUtility.FromJson<Agent>(www.downloadHandler.text);
+                Debug.Log(a.step_count);
 
+                for (int i = 0; i < a.positions.Count; i++)
+                {
+                    Debug.Log("Llego al loop " + i);
+                    /*if (i != a.positions[i].unique_id)
+                    {
+                        continue;
+                    }
+                    Debug.Log("Paso al loop if");*/
+                    GameObject car = Instantiate(Carro, new Vector3(a.positions[i].pos.x, 0, a.positions[i].pos.y), Quaternion.identity);
+                    car.GetComponent<Movement>().ID = a.positions[i].unique_id; // Corregir posiciones de "i" a pasar.
+                    car.GetComponent<Movement>().previousY = a.positions[i].pos.y - 3;
+                    car.GetComponent<Movement>().posY = a.positions[i].pos.y;
+                }
+            }
         }
-
-        yield return null;
 
     }
 
-    /*public void NewAgent()
-    {
-        Agent a = APIHelper.GetNewAgent();
-        agentText.text = a.step_count.ToString();
-
-        for (int i = 0; i < a.positions.Count; i++)
-        {
-            Debug.Log("IDS: " + a.positions[i].unique_id);
-
-            // Debug.Log("X: " + a.positions[i].pos.x);
-            // Debug.Log("Y: " + a.positions[i].pos.y);
-
-        }
-
-        Debug.Log("NUM CARROS = " + a.state_num_cars);
-
-    }*/
-
-
+    // Start is called before the first frame update
     void Start()
     {
-#if UNITY_EDITOR
-        StartCoroutine(GetData());
-        timer = timeToUpdate;
-#endif
 
     }
 
+    // Update is called once per frame
     void Update()
     {
-
         timer -= Time.deltaTime;
         dt = 1.0f - (timer / timeToUpdate);
 
         if (timer < 0)
         {
-
 #if UNITY_EDITOR
             timer = timeToUpdate; // reset the timer
-            /*Vector3 fakePos = new Vector3(3.44f, 0, -15.707f);
-            string json = EditorJsonUtility.ToJson(fakePos);*/
-            StartCoroutine(GetData());
+            StartCoroutine(SendData());
 #endif
         }
-
     }
-
 }

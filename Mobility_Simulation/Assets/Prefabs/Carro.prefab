@@ -310,7 +310,7 @@ GameObject:
   - component: {fileID: 4046877344281224379}
   m_Layer: 0
   m_Name: Carro
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -430,13 +430,10 @@ MonoBehaviour:
   speed: 10
   horizontalSpeed: 10
   ID: 0
-  limitPosition: {x: 0, y: -50, z: 0}
-  limitPositionRight: {x: 25, y: 0, z: 0}
-  limitPositionLeft: {x: 5, y: 0, z: 0}
-  posy: 0
-  previousPosy: 0
-  posx: -1
-  previousPosx: -1
+  posX: -1
+  previousX: -1
+  posY: 0
+  previousY: 0
 --- !u!1 &5642515336462006427
 GameObject:
   m_ObjectHideFlags: 0

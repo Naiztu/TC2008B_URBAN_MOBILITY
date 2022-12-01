@@ -5,8 +5,8 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
 
-    public int speed = 10;
-    public int horizontalSpeed = 10;
+    public int speed = 1;
+    public int horizontalSpeed = 1;
 
     public int ID = 0;
 

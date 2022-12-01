@@ -12,6 +12,8 @@ public class UrbanMobility : MonoBehaviour
     public GameObject Carro;
     public GameObject AltCarro;
 
+    int numCar;
+
     // IEnumerator - yield return
     IEnumerator SendData()
     {
@@ -36,16 +38,24 @@ public class UrbanMobility : MonoBehaviour
 
                 for (int i = 0; i < a.positions.Count; i++)
                 {
-                    Debug.Log("Llego al loop " + i);
-                    /*if (i != a.positions[i].unique_id)
+                    //Debug.Log("Llego al loop " + i);
+
+                    numCar = GameObject.FindGameObjectsWithTag("Player").Length;
+
+                    if (numCar != a.state_num_cars)
                     {
-                        continue;
+
+                        GameObject car = Instantiate(Carro, new Vector3(a.positions[i].pos.x, 0, a.positions[i].pos.y), Quaternion.identity);
+                        car.GetComponent<Movement>().ID = a.positions[i].unique_id; // Corregir posiciones de "i" a pasar.
+                        car.GetComponent<Movement>().previousY = a.positions[i].pos.y - 3;
+                        car.GetComponent<Movement>().posY = a.positions[i].pos.y;
+
                     }
-                    Debug.Log("Paso al loop if");*/
+                    /*Debug.Log("Paso al loop if");
                     GameObject car = Instantiate(Carro, new Vector3(a.positions[i].pos.x, 0, a.positions[i].pos.y), Quaternion.identity);
                     car.GetComponent<Movement>().ID = a.positions[i].unique_id; // Corregir posiciones de "i" a pasar.
                     car.GetComponent<Movement>().previousY = a.positions[i].pos.y - 3;
-                    car.GetComponent<Movement>().posY = a.positions[i].pos.y;
+                    car.GetComponent<Movement>().posY = a.positions[i].pos.y;*/
                 }
             }
         }

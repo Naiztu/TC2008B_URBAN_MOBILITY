@@ -37,7 +37,7 @@ public class Movement : MonoBehaviour
                     a.positions[i].pos.x == 0
                         ? -4
                         : a.positions[i].pos.x == 1 ? 0 : 4;
-                posY = (a.positions[i].pos.y * 3);
+                posY = (a.positions[i].pos.y * 5);
                 break;
             }
         }
@@ -50,7 +50,7 @@ public class Movement : MonoBehaviour
         {
             currentPos = transform.position;
             targetPos = new Vector3(posX, 0, posY);
-            transform.position = Vector3.Lerp(currentPos, targetPos, 5f);
+            transform.position = Vector3.Lerp(currentPos, targetPos, Time.deltaTime * 0.7f);
             previousX = posX;
             previousY = posY;
         }

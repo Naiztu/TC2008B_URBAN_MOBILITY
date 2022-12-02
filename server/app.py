@@ -23,7 +23,7 @@ from utils.converter import message_to_json, position_to_json, to_json
 app = Flask(__name__)
 
 # Initialize the model (unique_id, width, height, max_num_cars, time, time_stop, range_stop, max_speed, max_steps)
-model = ModelStreet(unique_id=1,width=3, height=1000, max_num_cars=30, time=10, time_stop=5, range_stop=750, max_speed=60)
+model = ModelStreet(unique_id=1,width=3, height=1000, max_num_cars=999, time=5, time_stop=1, range_stop=750, max_speed=60)
 
 # Endpoint for check the status of the server
 @app.route('/', methods=['GET'])
@@ -55,7 +55,7 @@ def initial_model():
 def reset_model():
 
     global model
-    model = ModelStreet(1, 3, 1000, 30, 10, 5, 750, 60)
+    model =ModelStreet(unique_id=1,width=3, height=1000, max_num_cars=999, time=5, time_stop=1, range_stop=750, max_speed=60)
 
     return message_to_json('Reset the model')
 
@@ -63,10 +63,12 @@ def reset_model():
 @app.route('/step', methods=['GET'])
 def step_model():
     model.step()
-    return model.json()
+    return to_json(model.json())
+
+
 
 # Get initial info of model
 @app.route('/info', methods=['GET'])
 def info_model():
-    return message_to_json(model.__str__())
+    return to_json(model.json())
 

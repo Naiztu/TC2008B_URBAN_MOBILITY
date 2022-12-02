@@ -95,9 +95,8 @@ class ModelStreet(Model):
         if self.state_num_cars >= self.max_num_cars:
             return
 
-        if random.randint(0, 1) == 1:
-            self.add_car()
-            self.state_num_cars += 1
+        self.add_car()
+        self.state_num_cars += 1
 
     def clean_deaths(self):
         for agent in self.schedule.agents:

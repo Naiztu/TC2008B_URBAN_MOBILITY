@@ -5,45 +5,47 @@ using UnityEngine.Networking;
 
 public class Spawner : MonoBehaviour
 {
-
     public GameObject gameManager;
+
     public GameObject Carro;
+
     public GameObject AltCarro;
+
     int numCar;
 
-    public Agent a; 
+    List<int> carIDs = new List<int>();
 
-
-
+    public Agent a;
 
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("Create", 0.0f, 2f);
+        InvokeRepeating("Create", 0.0f, 3f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        a =  gameManager.GetComponent<UrbanMobility>().a; 
-
-
-        // Debug.Log(a.step_count);
+        a = UrbanMobility.a;
     }
 
     public void Create()
     {
-        numCar = GameObject.FindGameObjectsWithTag("Player").Length;
-        int Fcar = a.state_num_cars - numCar;
-
-            if (Fcar >= 1)
-            {    
-                GameObject car = Instantiate(Carro, new Vector3(0, 0, a.positions[numCar].pos.y), Quaternion.identity);
-                car.gameObject.name = "Amogus" + a.positions[numCar].unique_id;
-            
-                Debug.Log("ID Carro = " + car); 
-
+        for (int i = 0; i < a.positions.Count; i++)
+        {
+            if (!carIDs.Contains(a.positions[i].unique_id))
+            {
+                carIDs.Add(a.positions[i].unique_id);
+                GameObject carro =
+                    Instantiate(Carro,
+                    new Vector3(a.positions[i].pos.x == 0
+                            ? -4
+                            : a.positions[i].pos.x == 1 ? 0 : 4,
+                        0,
+                        0),
+                    Quaternion.identity);
+                carro.GetComponent<Movement>().ID = a.positions[i].unique_id;
             }
-        
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,16 +6,15 @@ using UnityEngine.Networking;
 
 public class UrbanMobility : MonoBehaviour
 {
-        
-    public float timeToUpdate = 5.0f;
-    private float timer;
-    float dt;
+    public float timeToUpdate = 2.0f;
 
-    
+    private float timer;
+
+    float dt;
 
     int numCar;
 
-    public Agent a;
+    public static Agent a { get; private set; }
 
     // IEnumerator - yield return
     IEnumerator SendData()
@@ -24,13 +24,12 @@ public class UrbanMobility : MonoBehaviour
         string url = "http://127.0.0.1:5000/step";
         using (UnityWebRequest www = UnityWebRequest.Get(url))
         {
-            www.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+            www.downloadHandler = (DownloadHandler) new DownloadHandlerBuffer();
             www.SetRequestHeader("Content-Type", "application/json");
 
-            yield return www.SendWebRequest();          // Talk to Python
+            yield return www.SendWebRequest(); // Talk to Python
             if (www.isNetworkError || www.isHttpError)
             {
-                Debug.Log("Hola");
                 Debug.Log(www.error);
             }
             else
@@ -38,14 +37,11 @@ public class UrbanMobility : MonoBehaviour
                 a = JsonUtility.FromJson<Agent>(www.downloadHandler.text);
             }
         }
-
     }
-
 
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     // Update is called once per frame

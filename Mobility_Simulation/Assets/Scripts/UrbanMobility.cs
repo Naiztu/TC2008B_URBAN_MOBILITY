@@ -5,14 +5,16 @@ using UnityEngine.Networking;
 
 public class UrbanMobility : MonoBehaviour
 {
+        
     public float timeToUpdate = 5.0f;
     private float timer;
     float dt;
 
-    public GameObject Carro;
-    public GameObject AltCarro;
+    
 
     int numCar;
+
+    public Agent a;
 
     // IEnumerator - yield return
     IEnumerator SendData()
@@ -33,34 +35,12 @@ public class UrbanMobility : MonoBehaviour
             }
             else
             {
-                Agent a = JsonUtility.FromJson<Agent>(www.downloadHandler.text);
-                Debug.Log(a.step_count);
-
-                for (int i = 0; i < a.positions.Count; i++)
-                {
-                    //Debug.Log("Llego al loop " + i);
-
-                    numCar = GameObject.FindGameObjectsWithTag("Player").Length;
-
-                    if (numCar != a.state_num_cars)
-                    {
-
-                        GameObject car = Instantiate(Carro, new Vector3(a.positions[i].pos.x, 0, a.positions[i].pos.y), Quaternion.identity);
-                        car.GetComponent<Movement>().ID = a.positions[i].unique_id; // Corregir posiciones de "i" a pasar.
-                        car.GetComponent<Movement>().previousY = a.positions[i].pos.y - 3;
-                        car.GetComponent<Movement>().posY = a.positions[i].pos.y;
-
-                    }
-                    /*Debug.Log("Paso al loop if");
-                    GameObject car = Instantiate(Carro, new Vector3(a.positions[i].pos.x, 0, a.positions[i].pos.y), Quaternion.identity);
-                    car.GetComponent<Movement>().ID = a.positions[i].unique_id; // Corregir posiciones de "i" a pasar.
-                    car.GetComponent<Movement>().previousY = a.positions[i].pos.y - 3;
-                    car.GetComponent<Movement>().posY = a.positions[i].pos.y;*/
-                }
+                a = JsonUtility.FromJson<Agent>(www.downloadHandler.text);
             }
         }
 
     }
+
 
     // Start is called before the first frame update
     void Start()

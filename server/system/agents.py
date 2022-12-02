@@ -91,11 +91,11 @@ class car(Agent):
         self.new_position = (self.pos[0], self.pos[1] + self.speed * self.direction)
         if not self.is_in_range(self.new_position[0], self.new_position[1]):
             self.new_position = None
-            return
+            return self.json()
         self.change_direction()
         if not self.model.grid.is_cell_empty(self.new_position):
             self.new_position = None
-            return
+            return self.json()
         
         
     def advance(self):

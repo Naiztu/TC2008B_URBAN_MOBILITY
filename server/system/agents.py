@@ -32,12 +32,13 @@ from mesa import Agent
 
 class car(Agent):
     # Constructor
-    def __init__(self, unique_id, model, speed=1, direction=1, state=1):
+    def __init__(self, unique_id, model, speed=1, direction=1, state=1, flag_change_rail = True ):
         super().__init__(unique_id, model)
         self.speed = speed  
         self.direction = direction
         self.state = state
         self.ratio = speed + 1
+        self.flag_change_rail = flag_change_rail
         self.new_position = None
         self.new_state = None
         self.change_rail = None
@@ -85,14 +86,11 @@ class car(Agent):
 
     # Step of the car
     def step(self):
-        
-        
-
         self.new_position = (self.pos[0], self.pos[1] + self.speed * self.direction)
         if not self.is_in_range(self.new_position[0], self.new_position[1]):
             self.new_position = None
             return self.json()
-        self.change_direction()
+        if (not self.flag_change_rail): self.change_direction()
         if not self.model.grid.is_cell_empty(self.new_position):
             self.new_position = None
             return self.json()

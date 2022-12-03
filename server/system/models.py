@@ -46,8 +46,8 @@ def get_grid(model):
         time_stop: Time to stop the car in minutes
         range_stop: Range of execute stop car in meters
         max_speed: Max speed of the car in km/h
-        max_steps: Max steps of the simulation
-
+        no_change_rail: Flah if change the 
+        
     Attributes:
         Schedule: Schedule of the model
         Grid: Grid of the model
@@ -62,7 +62,7 @@ def get_grid(model):
 class ModelStreet(Model):
     # Constructor
     def __init__(self, unique_id, width=3, height=1000, max_num_cars=1000,
-    time=10, time_stop=5, range_stop=750, max_speed=60):
+    time=10, time_stop=5, range_stop=750, max_speed=60, no_change_rail = True):
         self.unique_id = unique_id
         self.width = width 
         self.height = int(height // 5) # 5 meters per cell
@@ -76,6 +76,7 @@ class ModelStreet(Model):
         self.state_ids = 0
         self.state_num_cars = 0
         self.flag_stop = False
+        self.no_change_rail = no_change_rail
         self.schedule = SimultaneousActivation(self)
         self.datacollector = DataCollector(model_reporters={"Grid": get_grid})
 
@@ -85,7 +86,7 @@ class ModelStreet(Model):
         rail = random.randint(0, self.width - 1)
         if not self.grid.is_cell_empty((rail, 0)):
             return
-        new_car = car(self.next_id(), self, self.max_speed, 1)
+        new_car = car(self.next_id(), self, self.max_speed, 1, 1, self.no_change_rail)
         # Add the car to the grid
         self.grid.place_agent(new_car, (rail, 0))
         self.schedule.add(new_car)

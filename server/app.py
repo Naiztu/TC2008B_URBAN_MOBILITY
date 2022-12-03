@@ -22,8 +22,10 @@ from utils.converter import message_to_json, position_to_json, to_json
 # Create the Flask app
 app = Flask(__name__)
 
-# Initialize the model (unique_id, width, height, max_num_cars, time, time_stop, range_stop, max_speed, max_steps)
-model = ModelStreet(unique_id=1,width=3, height=1000, max_num_cars=999, time=5, time_stop=1, range_stop=750, max_speed=60)
+# Initialize the model (unique_id, width, height, max_num_cars, time, time_stop, range_stop, max_speed, no_change_rail)
+model_initial = ModelStreet(unique_id=1,width=3, height=1000, max_num_cars=999, time=10, time_stop=5, range_stop=750, max_speed=60, no_change_rail = False)
+
+model = model_initial
 
 # Endpoint for check the status of the server
 @app.route('/', methods=['GET'])
@@ -41,11 +43,11 @@ def initial_model():
     time_stop = request.json['time_stop']
     range_stop = request.json['range_stop']
     max_speed = request.json['max_speed']
-    max_steps = request.json['max_steps']
+    no_change_rail = request.json['no_change_rail']
 
     # Initialize the model
     global model
-    model = ModelStreet(1, width, heigth, max_num_cars, time, time_stop, range_stop, max_speed)
+    model = ModelStreet(1, width, heigth, max_num_cars, time, time_stop, range_stop, max_speed,no_change_rail)
 
     # Return the message
     return to_json(model.json())
@@ -55,8 +57,7 @@ def initial_model():
 def reset_model():
 
     global model
-    model =ModelStreet(unique_id=1,width=3, height=1000, max_num_cars=999, time=5, time_stop=1, range_stop=750, max_speed=60)
-
+    model = model_initial
     return message_to_json('Reset the model')
 
 # Exexute step of model

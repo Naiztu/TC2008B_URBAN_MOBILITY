@@ -2,7 +2,7 @@ from system.models import ModelStreet
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 
-model = ModelStreet(unique_id=1,width=3, height=300, max_num_cars=500, time=10, time_stop=1, range_stop=200, max_speed=60)
+model =  ModelStreet(unique_id=1,width=3, height=500, max_num_cars=999, time=10, time_stop=1, range_stop=300, max_speed=60, no_change_rail = True)
 
 
 while not model.is_finished():

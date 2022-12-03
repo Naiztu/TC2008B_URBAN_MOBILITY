@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+
 public class UrbanMobility : MonoBehaviour
 {
     public float timeToUpdate = 2.0f;
@@ -15,8 +16,7 @@ public class UrbanMobility : MonoBehaviour
     int numCar;
 
     public static Agent a { get; private set; }
-
-    // IEnumerator - yield return
+    // Corrutina que hace un get al localhost, guarda el contenido del json en una variable "a" de tipo Agente.
     IEnumerator SendData()
     {
         WWWForm form = new WWWForm();
@@ -27,7 +27,7 @@ public class UrbanMobility : MonoBehaviour
             www.downloadHandler = (DownloadHandler) new DownloadHandlerBuffer();
             www.SetRequestHeader("Content-Type", "application/json");
 
-            yield return www.SendWebRequest(); // Talk to Python
+            yield return www.SendWebRequest(); // Comunicación con python.
             if (www.isNetworkError || www.isHttpError)
             {
                 Debug.Log(www.error);
@@ -53,7 +53,7 @@ public class UrbanMobility : MonoBehaviour
         if (timer < 0)
         {
 #if UNITY_EDITOR
-            timer = timeToUpdate; // reset the timer
+            timer = timeToUpdate; // Resetea el timer.
             StartCoroutine(SendData());
 #endif
         }

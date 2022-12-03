@@ -77,6 +77,7 @@ class ModelStreet(Model):
         self.state_num_cars = 0
         self.flag_stop = False
         self.no_change_rail = no_change_rail
+        self.num_cars_is_out = 0
         self.schedule = SimultaneousActivation(self)
         self.datacollector = DataCollector(model_reporters={"Grid": get_grid})
 
@@ -102,6 +103,7 @@ class ModelStreet(Model):
     def clean_deaths(self):
         for agent in self.schedule.agents:
             if agent.state == 0:
+                self.num_cars_is_out += 1
                 self.schedule.remove(agent)
                 self.grid.remove_agent(agent)
                 self.state_num_cars -= 1
@@ -155,5 +157,5 @@ class ModelStreet(Model):
         positions = positions_list
         return {"unique_id": self.unique_id, "width": self.width, "height": self.height, "max_num_cars": self.max_num_cars, "time_stop": self.time_stop, 
                 "range_stop": self.range_stop, "max_speed": self.max_speed, "max_steps": self.max_steps, "positions": positions, "step_count": self.step_count, "state_ids": self.state_ids, 
-                "state_num_cars": self.state_num_cars}
+                "state_num_cars": self.state_num_cars, "num_cars_is_out": self.num_cars_is_out}
 

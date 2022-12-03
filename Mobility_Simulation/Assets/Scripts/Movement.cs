@@ -26,12 +26,19 @@ public class Movement : MonoBehaviour
 
     public void Move()
     {
+        // Llama a la información del json obtenida anteriormente por UrbanMobility.
         a = UrbanMobility.a;
-        bool flag = false;
+        bool flag = false; // Bool auxiliar en la evaluación del estado de los GameObjects.
         for (int i = 0; i < a.positions.Count; i++)
         {
+            // si el GameObject posee un ID que se encuentre dentro del json, el bool será verdadero.
             if (a.positions[i].unique_id == ID)
             {
+
+                /**
+                    Como el entorno creado se muestra a una escala diferente, las posiciones de "x" y "y"
+                    sufren cambios para evitar que los GameObjects colisionen entre ellos. 
+                **/
                 flag = true;
                 posX =
                     a.positions[i].pos.x == 0
@@ -48,6 +55,12 @@ public class Movement : MonoBehaviour
 
         if (flag)
         {
+
+            /**
+                Si la flag sigue siendo verdadera, se llevará a cabo el movimiento del GameObject 
+                a la posición del siguiente step haciendo uso de Lerp.
+            **/
+
             currentPos = transform.position;
             targetPos = new Vector3(posX, 0, posY);
             transform.position = Vector3.Lerp(currentPos, targetPos, Time.deltaTime * 0.7f);
@@ -56,7 +69,8 @@ public class Movement : MonoBehaviour
         }
         else
         {
-            Destroy (gameObject);
+            // En caso contrario, el objeto es destruído al ya no ser parte del ciclo del modelo.
+            Destroy(gameObject);
         }
     }
 
@@ -65,7 +79,7 @@ public class Movement : MonoBehaviour
     {
     }
 
-    // Update is called once per frame
+    // Se llama a la función Move en el update para que los Carros se muevan.
     void Update()
     {
         Move();

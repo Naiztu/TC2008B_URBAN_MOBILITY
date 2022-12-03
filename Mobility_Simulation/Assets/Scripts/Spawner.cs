@@ -17,17 +17,22 @@ public class Spawner : MonoBehaviour
 
     public Agent a;
 
-    // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("Create", 0.0f, 3f);
+        InvokeRepeating("Create", 0.0f, 3f); // Invoca a Create cada 3 segundos.
     }
 
-    // Update is called once per frame
     void Update()
     {
-        a = UrbanMobility.a;
+        a = UrbanMobility.a; // Actualiza los datos a los que se encuentran en el servidor.
     }
+
+    /**
+        Dentro de la función Create se crean nuevas instancias del GameObject Carro dependiendo
+        del número de unique_id que se posean en el modelo del servidor.
+        Para evitar que se dupliquen carros con un mismo id, se crea una lista con todos los 
+        IDs existentes y se contrastan con aquellos del json.
+    **/
 
     public void Create()
     {
@@ -36,6 +41,7 @@ public class Spawner : MonoBehaviour
             if (!carIDs.Contains(a.positions[i].unique_id))
             {
                 carIDs.Add(a.positions[i].unique_id);
+                // Para evitar colisiones entre los GameObjects, sus posiciones en "x" cambian.
                 GameObject carro =
                     Instantiate(Carro,
                     new Vector3(a.positions[i].pos.x == 0

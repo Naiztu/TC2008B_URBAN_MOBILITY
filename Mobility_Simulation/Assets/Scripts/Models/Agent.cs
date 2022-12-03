@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 [System.Serializable]
 
+// Esta clase posee la estructura con la que el server de python genera los json.
 public class Agent
 {
     public int height;

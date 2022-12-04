@@ -16,6 +16,7 @@ public class Agent
     public int unique_id;
     public int state_num_cars;
     public int width;
+    public int num_cars_is_out;
 
 
 }

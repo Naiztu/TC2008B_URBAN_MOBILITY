@@ -71,6 +71,8 @@ public class Movement : MonoBehaviour
         {
             // En caso contrario, el objeto es destruído al ya no ser parte del ciclo del modelo.
             Destroy(gameObject);
+            Debug.Log("Carros que llegan al final: " + a.num_cars_is_out);
+
         }
     }
 
